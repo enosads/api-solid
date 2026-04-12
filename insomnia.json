@@ -1,0 +1,47 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-04-12",
+  "__export_source": "insomnia",
+  "resources": [
+    {
+      "_id": "wrk_api_solid",
+      "_type": "workspace",
+      "name": "API Solid",
+      "description": "GymPass style app API"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_api_solid",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3333"
+      }
+    },
+    {
+      "_id": "fld_users",
+      "_type": "request_group",
+      "parentId": "wrk_api_solid",
+      "name": "Users"
+    },
+    {
+      "_id": "req_create_user",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Create User",
+      "method": "POST",
+      "url": "{{ _.base_url }}/users",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\": \"John Doe\",\n\t\"email\": \"johndoe@example.com\",\n\t\"password\": \"123456\"\n}"
+      }
+    }
+  ]
+}
