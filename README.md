@@ -6,9 +6,18 @@ REST API built with Node.js following SOLID principles, developed during the Roc
 
 - **Node.js** + **TypeScript**
 - **Fastify** — web framework
+- **Prisma** — ORM
+- **PostgreSQL** — database
 - **Zod** — schema validation
 - **Biome** — linter & formatter
 - **tsup** — build tool
+- **Docker** — containerized database
+
+## Database Schema
+
+- **User** — app users with hashed passwords
+- **Gym** — gyms with geolocation (latitude/longitude)
+- **CheckIn** — check-in records linking users to gyms
 
 ## Features (Functional Requirements)
 
@@ -41,9 +50,34 @@ REST API built with Node.js following SOLID principles, developed during the Roc
 
 ## Getting Started
 
+### Requirements
+
+- Node.js 20+
+- Docker
+
+### Setup
+
 ```bash
+# Install dependencies
 npm install
+
+# Start the database
+docker compose up -d
+
+# Run migrations
+npx prisma migrate dev
+
+# Start dev server
 npm run dev
+```
+
+### Environment Variables
+
+Create a `.env` file based on `.env.example`:
+
+```env
+NODE_ENV=dev
+DATABASE_URL="postgresql://docker:docker@localhost:5432/api-solid-pg"
 ```
 
 ## Scripts
