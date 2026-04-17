@@ -9,6 +9,8 @@ REST API built with Node.js following SOLID principles, developed during the Roc
 - **Prisma** — ORM
 - **PostgreSQL** — database
 - **Zod** — schema validation
+- **Vitest** — unit testing
+- **bcryptjs** — password hashing
 - **Biome** — linter & formatter
 - **tsup** — build tool
 - **Docker** — containerized database
@@ -21,9 +23,9 @@ REST API built with Node.js following SOLID principles, developed during the Roc
 
 ## Features (Functional Requirements)
 
-- [ ] User registration
-- [ ] User authentication
-- [ ] Get logged-in user profile
+- [x] User registration
+- [x] User authentication
+- [x] Get logged-in user profile
 - [ ] Get check-in count for logged-in user
 - [ ] User check-in history
 - [ ] Search nearby gyms
@@ -34,7 +36,7 @@ REST API built with Node.js following SOLID principles, developed during the Roc
 
 ## Business Rules
 
-- [ ] No duplicate email registration
+- [x] No duplicate email registration
 - [ ] Max 1 check-in per day per user
 - [ ] Check-in only allowed within 100m of the gym
 - [ ] Check-in validation window: 20 minutes after creation
@@ -43,8 +45,8 @@ REST API built with Node.js following SOLID principles, developed during the Roc
 
 ## Non-Functional Requirements
 
-- [ ] Passwords must be hashed
-- [ ] PostgreSQL for data persistence
+- [x] Passwords must be hashed
+- [x] PostgreSQL for data persistence
 - [ ] All lists paginated with 20 items per page
 - [ ] JWT-based authentication
 
@@ -89,3 +91,8 @@ DATABASE_URL="postgresql://docker:docker@localhost:5432/api-solid-pg"
 | `npm run start` | Start production server |
 | `npm run lint` | Lint source files |
 | `npm run format` | Format source files |
+| `npm run test` | Run unit tests |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run test:coverage` | Run tests with coverage report |
+| `npm run test:ui` | Open Vitest UI |
+| `npm run studio` | Open Prisma Studio |
