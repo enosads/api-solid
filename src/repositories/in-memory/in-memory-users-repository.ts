@@ -9,6 +9,10 @@ export class InMemoryUsersRepository implements UsersRepository {
     return this.items.find((user) => user.email === email) ?? null
   }
 
+  async findById(id: string): Promise<User | null> {
+    return this.items.find((user) => user.id === id) ?? null
+  }
+
   async create(data: UserCreateInput): Promise<User> {
     const user: User = {
       id: crypto.randomUUID(),
