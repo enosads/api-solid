@@ -10,5 +10,8 @@ dist
 # Prisma generated
 /generated/prisma
 
-# Test coverage
+# Test
 /coverage
+
+# OS
+.DS_Store
