@@ -90,6 +90,25 @@ describe('Check In Use Case', () => {
     expect(checkIn.id).toEqual(expect.any(String))
   })
 
+  it('should be able to check in on nearby gym', async () => {
+    const nearbyGym = await gymsRepository.create({
+      title: 'gym-nearby',
+      description: null,
+      phone: null,
+      latitude: -7.031,
+      longitude: -37.3165,
+    })
+
+    const { checkIn } = await sut.execute({
+      gymId: nearbyGym.id,
+      userId: 'user-01',
+      userLatitude: -7.0312957,
+      userLongitude: -37.3164699,
+    })
+
+    expect(checkIn.id).toEqual(expect.any(String))
+  })
+
   it('should not be able to check in on distant gym', async () => {
     const gym2 = await gymsRepository.create({
       title: 'gym-02',
