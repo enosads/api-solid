@@ -6,20 +6,6 @@ import type { CheckInsRepository } from '../check-ins-repository'
 export class InMemoryCheckInsRepository implements CheckInsRepository {
   public items: CheckIn[] = []
 
-  async create(data: CheckInUncheckedCreateInput): Promise<CheckIn> {
-    const checkIn: CheckIn = {
-      id: crypto.randomUUID(),
-      created_at: new Date(),
-      gym_id: data.gym_id,
-      user_id: data.user_id,
-      validated_at: data.validated_at ? new Date(data.validated_at) : null,
-    }
-
-    this.items.push(checkIn)
-
-    return checkIn
-  }
-
   findByUserIdOnDate(userId: string, date: Date): Promise<CheckIn | null> {
     const startOfTheDay = dayjs(date).startOf('date')
     const endOfTheDay = dayjs(date).endOf('date')
@@ -32,5 +18,26 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     })
 
     return Promise.resolve(checkOnSameDate ?? null)
+  }
+
+  async findManyByUserId(userId: string, page: number = 1): Promise<CheckIn[]> {
+    const ITEMS_PER_PAGE = 20
+    return this.items
+      .filter((checkIn) => checkIn.user_id === userId)
+      .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+  }
+
+  async create(data: CheckInUncheckedCreateInput): Promise<CheckIn> {
+    const checkIn: CheckIn = {
+      id: crypto.randomUUID(),
+      created_at: new Date(),
+      gym_id: data.gym_id,
+      user_id: data.user_id,
+      validated_at: data.validated_at ? new Date(data.validated_at) : null,
+    }
+
+    this.items.push(checkIn)
+
+    return checkIn
   }
 }
