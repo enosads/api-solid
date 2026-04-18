@@ -1,19 +1,29 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
 import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms-repository'
+import type { Gym } from '../../generated/prisma/client'
 import { CheckInUserCase } from './check-in'
 
 let checkInsRepository: InMemoryCheckInsRepository
 let gymsRepository: InMemoryGymsRepository
+let gym: Gym
 
 let sut: CheckInUserCase
 
 describe('Check In Use Case', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     checkInsRepository = new InMemoryCheckInsRepository()
     gymsRepository = new InMemoryGymsRepository()
     sut = new CheckInUserCase(checkInsRepository, gymsRepository)
     vi.useFakeTimers()
+
+    gym = await gymsRepository.create({
+      title: 'gym-01',
+      description: null,
+      phone: null,
+      latitude: -7.0312957,
+      longitude: -37.3164699,
+    })
   })
 
   afterEach(() => {
@@ -43,13 +53,6 @@ describe('Check In Use Case', () => {
 
   it('should not be able to check in twice in the same day', async () => {
     vi.setSystemTime(new Date(2022, 0, 20, 8, 0, 0))
-    const gym = await gymsRepository.create({
-      title: 'gym-01',
-      description: null,
-      phone: null,
-      latitude: -7.0312957,
-      longitude: -37.3164699,
-    })
 
     await sut.execute({
       gymId: gym.id,
