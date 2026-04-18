@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
-import type { Decimal } from '@prisma/client/runtime/library'
 import type { Gym } from '../../../generated/prisma/client'
+import type { Decimal } from '../../../generated/prisma/internal/prismaNamespace'
 import type { GymCreateInput } from '../../../generated/prisma/models'
 import type { GymsRepository } from '../gyms-repository'
 
