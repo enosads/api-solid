@@ -8,18 +8,24 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 - Node.js 20+ + TypeScript
 - Fastify — high-performance web framework
 - Prisma — type-safe ORM
+- tsx — TypeScript executor for development
 
-**Database & Validation**
+**Database & Utilities**
 - PostgreSQL — relational database
+- pg — PostgreSQL client driver
+- dayjs — date/time manipulation library
+- dotenv — environment variables loader
+
+**Validation & Schema**
 - Zod — runtime schema validation
 
 **Testing & Quality**
-- Vitest — unit testing framework
+- Vitest — unit testing framework with coverage
 - Biome — fast linter and formatter
 
 **Security & Build**
 - bcryptjs — password hashing
-- tsup — TypeScript bundle tool
+- tsup — TypeScript bundler
 - Docker — containerized PostgreSQL
 
 ## Database Schema
