@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { Gym } from '../../../generated/prisma/client'
-import type { Decimal } from '../../../generated/prisma/internal/prismaNamespace'
+import { Decimal } from '../../../generated/prisma/internal/prismaNamespace'
 import type { GymCreateInput } from '../../../generated/prisma/models'
 import type { GymsRepository } from '../gyms-repository'
 
@@ -21,8 +21,8 @@ export class InMemoryGymsRepository implements GymsRepository {
       title: data.title,
       description: data.description ?? null,
       phone: data.phone ?? null,
-      latitude: data.latitude as Decimal,
-      longitude: data.longitude as Decimal,
+      latitude: new Decimal(data.latitude),
+      longitude: new Decimal(data.longitude),
     }
     this.items.push(gym)
     return gym
