@@ -27,6 +27,10 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
       .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
   }
 
+  async countByUserId(userId: string): Promise<number> {
+    return this.items.filter((checkIn) => checkIn.user_id === userId).length
+  }
+
   async create(data: CheckInUncheckedCreateInput): Promise<CheckIn> {
     const checkIn: CheckIn = {
       id: crypto.randomUUID(),
