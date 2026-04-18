@@ -4,8 +4,6 @@ import { type Gym, Prisma } from '../../../generated/prisma/client'
 import type { GymCreateInput } from '../../../generated/prisma/models'
 import type { FindManyNearbyParams, GymsRepository } from '../gyms-repository'
 
-const MAX_DISTANCE_IN_KM = 10
-
 export class InMemoryGymsRepository implements GymsRepository {
   public items: Gym[] = []
 
@@ -19,6 +17,8 @@ export class InMemoryGymsRepository implements GymsRepository {
 
   async findManyNearby(params: FindManyNearbyParams): Promise<Gym[]> {
     const { latitude, longitude } = params
+    const MAX_DISTANCE_IN_KM = 10
+
     return this.items.filter((gym) => {
       const gymLatitude = Number(gym.latitude.toString())
       const gymLongitude = Number(gym.longitude.toString())
