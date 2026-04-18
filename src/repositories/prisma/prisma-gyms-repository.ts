@@ -3,9 +3,6 @@ import { type Gym, Prisma } from '../../../generated/prisma/client'
 import type { GymCreateInput } from '../../../generated/prisma/models'
 import type { FindManyNearbyParams, GymsRepository } from '../gyms-repository'
 
-const EARTH_RADIUS_KM = 6371
-const MAX_DISTANCE_IN_KM = 10
-
 export class PrismaGymsRepository implements GymsRepository {
   async findById(id: string): Promise<Gym | null> {
     return prisma.gym.findUnique({
@@ -17,6 +14,9 @@ export class PrismaGymsRepository implements GymsRepository {
 
   async findManyNearby(params: FindManyNearbyParams): Promise<Gym[]> {
     const { latitude, longitude } = params
+
+    const EARTH_RADIUS_KM = 6371
+    const MAX_DISTANCE_IN_KM = 10
 
     const gyms = await prisma.$queryRaw<Gym[]>`
       SELECT * FROM "Gym"

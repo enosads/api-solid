@@ -26,6 +26,7 @@ export class InMemoryGymsRepository implements GymsRepository {
         { latitude, longitude },
         { latitude: gymLatitude, longitude: gymLongitude },
       )
+      console.log('distance', distance)
       return distance < MAX_DISTANCE_IN_KM
     })
   }
