@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { Decimal } from '../../../generated/prisma/internal/prismaNamespace'
-import type { Gym } from '../../../generated/prisma/client'
+import { type Gym, Prisma } from '../../../generated/prisma/client'
 import type { GymCreateInput } from '../../../generated/prisma/models'
 import type { GymsRepository } from '../gyms-repository'
 
@@ -19,8 +18,8 @@ export class PrismaGymsRepository implements GymsRepository {
         title: data.title,
         description: data.description,
         phone: data.phone,
-        latitude: new Decimal(data.latitude),
-        longitude: new Decimal(data.longitude),
+        latitude: new Prisma.Decimal(data.latitude.toString()),
+        longitude: new Prisma.Decimal(data.longitude.toString()),
       },
     })
   }
