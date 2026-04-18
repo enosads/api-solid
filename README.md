@@ -1,19 +1,26 @@
 # API Solid — GymPass Style App
 
-REST API built with Node.js following SOLID principles, developed during the Rocketseat Node.js bootcamp.
+A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcamp. A REST API for a GymPass-style application built with SOLID principles and best practices.
 
 ## Tech Stack
 
-- **Node.js** + **TypeScript**
-- **Fastify** — web framework
-- **Prisma** — ORM
-- **PostgreSQL** — database
-- **Zod** — schema validation
-- **Vitest** — unit testing
-- **bcryptjs** — password hashing
-- **Biome** — linter & formatter
-- **tsup** — build tool
-- **Docker** — containerized database
+**Core**
+- Node.js 20+ + TypeScript
+- Fastify — high-performance web framework
+- Prisma — type-safe ORM
+
+**Database & Validation**
+- PostgreSQL — relational database
+- Zod — runtime schema validation
+
+**Testing & Quality**
+- Vitest — unit testing framework
+- Biome — fast linter and formatter
+
+**Security & Build**
+- bcryptjs — password hashing
+- tsup — TypeScript bundle tool
+- Docker — containerized PostgreSQL
 
 ## Database Schema
 
