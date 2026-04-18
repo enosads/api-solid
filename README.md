@@ -30,15 +30,15 @@ REST API built with Node.js following SOLID principles, developed during the Roc
 - [ ] User check-in history
 - [ ] Search nearby gyms
 - [ ] Search gyms by name
-- [ ] Perform gym check-in
+- [x] Perform gym check-in
 - [ ] Validate user check-in
-- [ ] Register a gym
+- [x] Register a gym
 
 ## Business Rules
 
 - [x] No duplicate email registration
-- [ ] Max 1 check-in per day per user
-- [ ] Check-in only allowed within 100m of the gym
+- [x] Max 1 check-in per day per user
+- [x] Check-in only allowed within 100m of the gym
 - [ ] Check-in validation window: 20 minutes after creation
 - [ ] Only admins can validate check-ins
 - [ ] Only admins can register gyms
