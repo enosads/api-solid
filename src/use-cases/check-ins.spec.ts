@@ -21,8 +21,8 @@ describe('Check In Use Case', () => {
       title: 'gym-01',
       description: null,
       phone: null,
-      latitude: -7.0312957,
-      longitude: -37.3164699,
+      latitude: -7.036881,
+      longitude: -37.313905,
     })
   })
 
@@ -34,8 +34,8 @@ describe('Check In Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: gym.id,
       userId: 'user-01',
-      userLatitude: -7.0312957,
-      userLongitude: -37.3164699,
+      userLatitude: -7.036881,
+      userLongitude: -37.313905,
     })
 
     expect(checkIn.id).toEqual(expect.any(String))
@@ -47,16 +47,16 @@ describe('Check In Use Case', () => {
     await sut.execute({
       gymId: gym.id,
       userId: 'user-01',
-      userLatitude: -7.0312957,
-      userLongitude: -37.3164699,
+      userLatitude: -7.036881,
+      userLongitude: -37.313905,
     })
 
     await expect(() =>
       sut.execute({
         gymId: gym.id,
         userId: 'user-01',
-        userLatitude: -7.0312957,
-        userLongitude: -37.3164699,
+        userLatitude: -7.036881,
+        userLongitude: -37.313905,
       }),
     ).rejects.toBeInstanceOf(Error)
   })
@@ -122,8 +122,8 @@ describe('Check In Use Case', () => {
       sut.execute({
         gymId: gym2.id,
         userId: 'user-01',
-        userLatitude: -7.0312957,
-        userLongitude: -37.3164699,
+        userLatitude: -7.036881,
+        userLongitude: -37.313905,
       }),
     ).rejects.toBeInstanceOf(Error)
   })
