@@ -14,6 +14,13 @@ export class InMemoryGymsRepository implements GymsRepository {
     return gym
   }
 
+  async searchMany(query: string, page: number): Promise<Gym[]> {
+    const ITEMS_PER_PAGE = 20
+    return this.items
+      .filter((gym) => gym.title.includes(query))
+      .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+  }
+
   async create(data: GymCreateInput): Promise<Gym> {
     const gym: Gym = {
       id: randomUUID(),

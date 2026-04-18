@@ -12,6 +12,19 @@ export class PrismaGymsRepository implements GymsRepository {
     })
   }
 
+  async searchMany(query: string, page: number): Promise<Gym[]> {
+    const ITEMS_PER_PAGE = 20
+    return prisma.gym.findMany({
+      where: {
+        title: {
+          contains: query,
+        },
+      },
+      skip: (page - 1) * ITEMS_PER_PAGE,
+      take: ITEMS_PER_PAGE,
+    })
+  }
+
   async create(data: GymCreateInput): Promise<Gym> {
     return prisma.gym.create({
       data: {
