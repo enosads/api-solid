@@ -5,7 +5,19 @@ import type { CheckInUncheckedCreateInput } from '../../../generated/prisma/mode
 import type { CheckInsRepository } from '../check-ins-repository'
 
 export class PrismaCheckInsRepository implements CheckInsRepository {
-  findByUserIdOnDate(userId: string, date: Date): Promise<CheckIn | null> {
+  async findById(id: string): Promise<CheckIn | null> {
+    const checkIn = await prisma.checkIn.findFirst({
+      where: {
+        id,
+      },
+    })
+    return checkIn ?? null
+  }
+
+  async findByUserIdOnDate(
+    userId: string,
+    date: Date,
+  ): Promise<CheckIn | null> {
     const startOfTheDay = dayjs(date).startOf('date').toDate()
     const endOfTheDay = dayjs(date).endOf('date').toDate()
 
@@ -19,7 +31,7 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
       },
     })
   }
-  findManyByUserId(userId: string, page: number = 1): Promise<CheckIn[]> {
+  async findManyByUserId(userId: string, page: number = 1): Promise<CheckIn[]> {
     const ITEMS_PER_PAGE = 20
     return prisma.checkIn.findMany({
       where: {
@@ -30,7 +42,7 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
     })
   }
 
-  countByUserId(userId: string): Promise<number> {
+  async countByUserId(userId: string): Promise<number> {
     return prisma.checkIn.count({
       where: {
         user_id: userId,
@@ -40,5 +52,14 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
 
   async create(data: CheckInUncheckedCreateInput): Promise<CheckIn> {
     return prisma.checkIn.create({ data })
+  }
+
+  async save(checkIn: CheckIn): Promise<CheckIn> {
+    return prisma.checkIn.update({
+      where: {
+        id: checkIn.id,
+      },
+      data: checkIn,
+    })
   }
 }
