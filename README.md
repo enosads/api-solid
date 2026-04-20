@@ -63,6 +63,21 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 - [ ] All lists paginated with 20 items per page
 - [ ] JWT-based authentication
 
+## Testing
+
+Tests are isolated using a custom Prisma Vitest environment that:
+- Creates a unique PostgreSQL schema per test file
+- Runs migrations for each schema automatically
+- Cleans up orphaned schemas on setup
+- Provides complete data isolation without test interference
+
+```bash
+npm run test          # Run all tests
+npm run test:watch   # Watch mode
+npm run test:coverage # With coverage report
+npm run test:ui      # Interactive UI
+```
+
 ## Getting Started
 
 ### Requirements
