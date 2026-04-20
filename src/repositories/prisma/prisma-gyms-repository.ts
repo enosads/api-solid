@@ -5,11 +5,12 @@ import type { FindManyNearbyParams, GymsRepository } from '../gyms-repository'
 
 export class PrismaGymsRepository implements GymsRepository {
   async findById(id: string): Promise<Gym | null> {
-    return prisma.gym.findUnique({
+    const gym = await prisma.gym.findUnique({
       where: {
         id,
       },
     })
+    return gym
   }
 
   async findManyNearby(params: FindManyNearbyParams): Promise<Gym[]> {
@@ -19,25 +20,19 @@ export class PrismaGymsRepository implements GymsRepository {
     const MAX_DISTANCE_IN_KM = 10
 
     const gyms = await prisma.$queryRaw<Gym[]>`
-      SELECT * FROM "Gym"
-      WHERE (
-        ${EARTH_RADIUS_KM} * acos(
-          cos(radians(90 - ${latitude})) *
-          cos(radians(90 - latitude)) *
-          cos(radians(longitude - ${longitude})) +
-          sin(radians(90 - ${latitude})) *
-          sin(radians(90 - latitude))
-        )
-      ) <= ${MAX_DISTANCE_IN_KM}
-      ORDER BY (
-        ${EARTH_RADIUS_KM} * acos(
-          cos(radians(90 - ${latitude})) *
-          cos(radians(90 - latitude)) *
-          cos(radians(longitude - ${longitude})) +
-          sin(radians(90 - ${latitude})) *
-          sin(radians(90 - latitude))
-        )
-      ) ASC
+      SELECT * FROM (
+        SELECT *,
+          ${EARTH_RADIUS_KM} * acos(
+            cos(radians(90 - ${latitude})) *
+            cos(radians(90 - latitude)) *
+            cos(radians(longitude - ${longitude})) +
+            sin(radians(90 - ${latitude})) *
+            sin(radians(90 - latitude))
+          ) AS distance
+        FROM "Gym"
+      ) AS gym_with_distance
+      WHERE distance <= ${MAX_DISTANCE_IN_KM}
+      ORDER BY distance ASC
     `
 
     return gyms
@@ -45,26 +40,23 @@ export class PrismaGymsRepository implements GymsRepository {
 
   async searchMany(query: string, page: number): Promise<Gym[]> {
     const ITEMS_PER_PAGE = 20
-    return prisma.gym.findMany({
+    const skip = (page - 1) * ITEMS_PER_PAGE
+    const gyms = await prisma.gym.findMany({
       where: {
         title: {
           contains: query,
         },
       },
-      skip: (page - 1) * ITEMS_PER_PAGE,
+      skip,
       take: ITEMS_PER_PAGE,
     })
+    return gyms
   }
 
   async create(data: GymCreateInput): Promise<Gym> {
-    return prisma.gym.create({
-      data: {
-        title: data.title,
-        description: data.description,
-        phone: data.phone,
-        latitude: new Prisma.Decimal(data.latitude.toString()),
-        longitude: new Prisma.Decimal(data.longitude.toString()),
-      },
+    const gym = await prisma.gym.create({
+      data,
     })
+    return gym
   }
 }

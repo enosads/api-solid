@@ -6,12 +6,12 @@ import type { CheckInsRepository } from '../check-ins-repository'
 
 export class PrismaCheckInsRepository implements CheckInsRepository {
   async findById(id: string): Promise<CheckIn | null> {
-    const checkIn = await prisma.checkIn.findFirst({
+    const checkIn = await prisma.checkIn.findUnique({
       where: {
         id,
       },
     })
-    return checkIn ?? null
+    return checkIn
   }
 
   async findByUserIdOnDate(
@@ -21,7 +21,7 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
     const startOfTheDay = dayjs(date).startOf('date').toDate()
     const endOfTheDay = dayjs(date).endOf('date').toDate()
 
-    return prisma.checkIn.findFirst({
+    const checkIn = await prisma.checkIn.findFirst({
       where: {
         user_id: userId,
         created_at: {
@@ -30,36 +30,42 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
         },
       },
     })
+    return checkIn
   }
   async findManyByUserId(userId: string, page: number = 1): Promise<CheckIn[]> {
     const ITEMS_PER_PAGE = 20
-    return prisma.checkIn.findMany({
+    const skip = (page - 1) * ITEMS_PER_PAGE
+    const checkIns = await prisma.checkIn.findMany({
       where: {
         user_id: userId,
       },
       take: ITEMS_PER_PAGE,
-      skip: (page - 1) * ITEMS_PER_PAGE,
+      skip,
     })
+    return checkIns
   }
 
   async countByUserId(userId: string): Promise<number> {
-    return prisma.checkIn.count({
+    const count = await prisma.checkIn.count({
       where: {
         user_id: userId,
       },
     })
+    return count
   }
 
   async create(data: CheckInUncheckedCreateInput): Promise<CheckIn> {
-    return prisma.checkIn.create({ data })
+    const checkIn = await prisma.checkIn.create({ data })
+    return checkIn
   }
 
   async save(checkIn: CheckIn): Promise<CheckIn> {
-    return prisma.checkIn.update({
+    const updatedCheckIn = await prisma.checkIn.update({
       where: {
         id: checkIn.id,
       },
       data: checkIn,
     })
+    return updatedCheckIn
   }
 }
