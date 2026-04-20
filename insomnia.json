@@ -60,6 +60,20 @@
         "mimeType": "application/json",
         "text": "{\n\t\"email\": \"johndoe@example.com\",\n\t\"password\": \"123456\"\n}"
       }
+    },
+    {
+      "_id": "req_profile",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Get Profile",
+      "method": "GET",
+      "url": "{{ _.base_url }}/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {% response 'body', 'req_authenticate', 'b64::JC50b2tlbg==::46' %}"
+        }
+      ]
     }
   ]
 }
