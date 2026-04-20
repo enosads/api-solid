@@ -2,8 +2,7 @@ import { randomUUID } from 'node:crypto'
 import 'dotenv/config'
 import { execSync } from 'node:child_process'
 import type { Environment } from 'vitest/environments'
-import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '../../generated/prisma/client.js'
+import { resetPrisma, getPrisma } from '../../src/lib/prisma.js'
 
 function generateDatabaseUrl(schema: string) {
   if (!process.env.DATABASE_URL) {
@@ -20,15 +19,21 @@ export default (<Environment>{
   async setup() {
     const schema = randomUUID()
     const databaseUrl = generateDatabaseUrl(schema)
+    console.log('Test DB:', databaseUrl)
     process.env.DATABASE_URL = databaseUrl
+    resetPrisma()
+
+    const prisma = getPrisma()
+    await prisma.$executeRawUnsafe(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`)
+    await prisma.$executeRawUnsafe(`CREATE SCHEMA "${schema}"`)
+    console.log(`Schema created: ${schema}`)
 
     execSync('npx prisma migrate deploy')
-
-    const adapter = new PrismaPg({ connectionString: databaseUrl })
-    const prisma = new PrismaClient({ adapter })
+    console.log(`Migrations deployed to: ${schema}`)
 
     return {
       async teardown() {
+        const prisma = getPrisma()
         await prisma.$executeRawUnsafe(
           `DROP SCHEMA IF EXISTS "${schema}" CASCADE`,
         )
