@@ -2,16 +2,16 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
 import { LateCheckInValidationError } from './errors/late-check-in-validation-error'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
-import { ValidateCheckInUserCase } from './validate-check-in'
+import { ValidateCheckInUseCase } from './validate-check-in'
 
 let checkInsRepository: InMemoryCheckInsRepository
 
-let sut: ValidateCheckInUserCase
+let sut: ValidateCheckInUseCase
 
 describe('Validate Check In Use Case', () => {
   beforeEach(async () => {
     checkInsRepository = new InMemoryCheckInsRepository()
-    sut = new ValidateCheckInUserCase(checkInsRepository)
+    sut = new ValidateCheckInUseCase(checkInsRepository)
     vi.useFakeTimers()
   })
 
