@@ -8,6 +8,7 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 - Node.js 20+ + TypeScript
 - Fastify — high-performance web framework
 - Prisma — type-safe ORM
+- @prisma/adapter-pg — PostgreSQL adapter for Prisma
 - tsx — TypeScript executor for development
 
 **Database & Utilities**
@@ -19,8 +20,12 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 **Validation & Schema**
 - Zod — runtime schema validation
 
+**Authentication**
+- @fastify/jwt — JWT-based authentication
+
 **Testing & Quality**
 - Vitest — unit testing framework with coverage
+- Supertest — HTTP API integration testing
 - Custom Vitest Prisma environment — isolated schema per test
 - Biome — fast linter and formatter
 
