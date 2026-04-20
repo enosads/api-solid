@@ -21,6 +21,7 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 
 **Testing & Quality**
 - Vitest — unit testing framework with coverage
+- Custom Vitest Prisma environment — isolated schema per test
 - Biome — fast linter and formatter
 
 **Security & Build**
