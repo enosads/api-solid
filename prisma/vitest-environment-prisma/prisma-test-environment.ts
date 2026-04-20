@@ -26,10 +26,8 @@ export default (<Environment>{
     const prisma = getPrisma()
     await prisma.$executeRawUnsafe(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`)
     await prisma.$executeRawUnsafe(`CREATE SCHEMA "${schema}"`)
-    console.log(`Schema created: ${schema}`)
 
     execSync('npx prisma migrate deploy')
-    console.log(`Migrations deployed to: ${schema}`)
 
     return {
       async teardown() {
