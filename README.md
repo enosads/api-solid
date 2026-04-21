@@ -110,12 +110,12 @@ await request(app.server)
 ### Running Tests
 
 ```bash
-npm run test              # Run all tests
-npm run test:watch       # Watch mode
-npm run test:e2e         # E2E tests only
-npm run test:e2e:watch   # E2E watch mode
-npm run test:coverage    # With coverage report
-npm run test:ui          # Interactive UI
+npm run test              # Run unit tests only
+npm run test:watch       # Unit tests in watch mode
+npm run test:e2e         # Run E2E tests only
+npm run test:e2e:watch   # E2E tests in watch mode
+npm run test:coverage    # Unit tests with coverage report
+npm run test:ui          # Open Vitest interactive UI
 ```
 
 ## Getting Started
