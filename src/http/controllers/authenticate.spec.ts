@@ -1,4 +1,4 @@
-import { expect, it, describe, beforeAll, afterAll } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { app } from '@/app'
 import { authenticateUser } from '@/http/test-utils'
 
