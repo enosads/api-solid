@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { type Gym, Prisma } from '../../../generated/prisma/client'
+import type { Gym } from '../../../generated/prisma/client'
 import type { GymCreateInput } from '../../../generated/prisma/models'
 import type { FindManyNearbyParams, GymsRepository } from '../gyms-repository'
 
@@ -22,16 +22,18 @@ export class PrismaGymsRepository implements GymsRepository {
     const gyms = await prisma.$queryRaw<Gym[]>`
       SELECT * FROM (
         SELECT *,
-          ${EARTH_RADIUS_KM} * acos(
-            cos(radians(90 - ${latitude})) *
-            cos(radians(90 - latitude)) *
-            cos(radians(longitude - ${longitude})) +
-            sin(radians(90 - ${latitude})) *
-            sin(radians(90 - latitude))
+          ${EARTH_RADIUS_KM}::float8 * acos(
+            LEAST(1.0, GREATEST(-1.0,
+              cos(radians(90 - ${latitude}::float8)) *
+              cos(radians(90 - latitude)) *
+              cos(radians(longitude - ${longitude}::float8)) +
+              sin(radians(90 - ${latitude}::float8)) *
+              sin(radians(90 - latitude))
+            ))
           ) AS distance
-        FROM "Gym"
+        FROM gyms
       ) AS gym_with_distance
-      WHERE distance <= ${MAX_DISTANCE_IN_KM}
+      WHERE distance <= ${MAX_DISTANCE_IN_KM}::float8
       ORDER BY distance ASC
     `
 
@@ -45,6 +47,7 @@ export class PrismaGymsRepository implements GymsRepository {
       where: {
         title: {
           contains: query,
+          mode: 'insensitive',
         },
       },
       skip,
