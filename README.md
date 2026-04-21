@@ -110,7 +110,7 @@ await request(app.server)
 ### Running Tests
 
 ```bash
-npm run test              # Run unit tests only
+npm run test             # Run unit tests only
 npm run test:watch       # Unit tests in watch mode
 npm run test:e2e         # Run E2E tests only
 npm run test:e2e:watch   # E2E tests in watch mode
