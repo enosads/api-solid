@@ -70,17 +70,52 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 
 ## Testing
 
-Tests are isolated using a custom Prisma Vitest environment that:
-- Creates a unique PostgreSQL schema per test file
-- Runs migrations for each schema automatically
-- Cleans up orphaned schemas on setup
-- Provides complete data isolation without test interference
+### Test Structure
+
+- **Unit tests** — business logic in `src/use-cases/*.spec.ts`
+- **E2E tests** — API endpoints in `src/http/controllers/*.spec.ts`
+
+### Schema Isolation
+
+Tests use a custom Prisma Vitest environment (`prisma/vitest-environment-prisma/prisma-test-environment.ts`) that ensures complete data isolation:
+
+- **Per-test schemas**: Each test file gets its own unique PostgreSQL schema
+- **Automatic migrations**: Schema is initialized with `prisma migrate deploy`
+- **Cleanup**: Schema is dropped after tests complete via `pg.Client`
+- **No interference**: Test data never leaks between runs or test files
+
+### Authentication in E2E Tests
+
+Use the `authenticateUser()` helper from `src/http/test-utils.ts` to avoid repetition:
+
+```typescript
+import { authenticateUser } from '@/http/test-utils'
+
+// Default user (John Doe / johndoe@example.com / 123456)
+const { token } = await authenticateUser(app)
+
+// Custom user
+const { token } = await authenticateUser(app, {
+  email: 'custom@example.com',
+  password: 'password123',
+  name: 'Custom Name'
+})
+
+// Use token in requests
+await request(app.server)
+  .get('/me')
+  .set('Authorization', `Bearer ${token}`)
+```
+
+### Running Tests
 
 ```bash
-npm run test          # Run all tests
-npm run test:watch   # Watch mode
-npm run test:coverage # With coverage report
-npm run test:ui      # Interactive UI
+npm run test              # Run all tests
+npm run test:watch       # Watch mode
+npm run test:e2e         # E2E tests only
+npm run test:e2e:watch   # E2E watch mode
+npm run test:coverage    # With coverage report
+npm run test:ui          # Interactive UI
 ```
 
 ## Getting Started
