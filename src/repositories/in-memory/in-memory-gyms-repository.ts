@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { getDistanceBetweenCoordinates } from '@/use-cases/utils/get-distance-between-coordinates'
+import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordinates'
 import type { Gym } from '../../../generated/prisma/client'
 import type { GymCreateInput } from '../../../generated/prisma/models'
 import type { FindManyNearbyParams, GymsRepository } from '../gyms-repository'

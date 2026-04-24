@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { app } from '@/app'
-import { authenticateUser } from '@/http/test-utils'
+import { createAndauthenticateUser } from '@/utils/test/create-and-authenticate-user'
 
 describe('Authenticate (e2e)', () => {
   beforeAll(async () => {
@@ -12,7 +12,7 @@ describe('Authenticate (e2e)', () => {
   })
 
   it('should be able to authenticate', async () => {
-    const { token } = await authenticateUser(app)
+    const { token } = await createAndauthenticateUser(app)
 
     expect(token).toBeDefined()
     expect(typeof token).toBe('string')
