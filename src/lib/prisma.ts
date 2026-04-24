@@ -5,10 +5,11 @@ import { env } from '../env/index.js'
 const url = new URL(env.DATABASE_URL)
 const schema = url.searchParams.get('schema') ?? undefined
 
-export const databaseSchema = schema ?? 'public'
-
 const adapter = new PrismaPg(
-  { connectionString: env.DATABASE_URL },
+  {
+    connectionString: env.DATABASE_URL,
+    ...(schema && { options: `-c search_path="${schema}",public` }),
+  },
   { schema },
 )
 

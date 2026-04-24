@@ -1,6 +1,5 @@
-import { databaseSchema, prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma'
 import type { Gym } from '../../../generated/prisma/client'
-import { Prisma } from '../../../generated/prisma/client'
 import type { GymCreateInput } from '../../../generated/prisma/models'
 import type { FindManyNearbyParams, GymsRepository } from '../gyms-repository'
 
@@ -20,8 +19,6 @@ export class PrismaGymsRepository implements GymsRepository {
     const EARTH_RADIUS_KM = 6371
     const MAX_DISTANCE_IN_KM = 10
 
-    const gymsTable = Prisma.raw(`"${databaseSchema}"."gyms"`)
-
     const gyms = await prisma.$queryRaw<Gym[]>`
       SELECT * FROM (
         SELECT *,
@@ -34,7 +31,7 @@ export class PrismaGymsRepository implements GymsRepository {
               sin(radians(90 - latitude))
             ))
           ) AS distance
-        FROM ${gymsTable}
+        FROM gyms
       ) AS gym_with_distance
       WHERE distance <= ${MAX_DISTANCE_IN_KM}::float8
       ORDER BY distance ASC
