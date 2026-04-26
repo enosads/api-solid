@@ -17,6 +17,10 @@ jobs:
           POSTGRESQL_PASSWORD: docker
           POSTGRESQL_DATABASE: apisolid
 
+    env:
+      JWT_SECRET: testing
+      DATABASE_URL: postgresql://docker:docker@localhost:5432/apisolid?schema=public
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,14 +28,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 24.11.1
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate Prisma client
+        run: npx prisma generate
+
       - name: Run E2E tests
         run: npm run test:e2e
-        env:
-          JWT_SECRET: testing
-          DATABASE_URL: "postgresql://docker:docker@localhost:5432/apisolid?schema=public"
