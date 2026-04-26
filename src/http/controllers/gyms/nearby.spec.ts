@@ -2,7 +2,7 @@ import request from 'supertest'
 
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { app } from '@/app'
-import { createAndauthenticateUser } from '@/utils/test/create-and-authenticate-user'
+import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
 
 describe('Nearby Gyms (e2e)', () => {
   beforeAll(async () => {
@@ -14,7 +14,7 @@ describe('Nearby Gyms (e2e)', () => {
   })
 
   it('should be able to fetch nearby gyms', async () => {
-    const { token } = await createAndauthenticateUser(app)
+    const { token } = await createAndAuthenticateUser(app)
 
     const createNearResponse = await request(app.server)
       .post('/gyms')
