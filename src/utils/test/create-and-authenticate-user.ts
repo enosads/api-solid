@@ -23,12 +23,7 @@ export async function createAndAuthenticateUser(
 
   const token = authResponse.body.token
 
-  const profileResponse = await request(app.server)
-    .get('/me')
-    .set('Authorization', `Bearer ${token}`)
-
   return {
     token,
-    userId: profileResponse.body.id,
   }
 }
