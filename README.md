@@ -22,6 +22,7 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 
 **Authentication**
 - @fastify/jwt — JWT-based authentication
+- @fastify/cookie — cookie support for refresh token
 
 **Testing & Quality**
 - Vitest — unit testing framework with coverage
@@ -44,12 +45,12 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 - [x] User registration
 - [x] User authentication
 - [x] Get logged-in user profile
-- [ ] Get check-in count for logged-in user
-- [ ] User check-in history
-- [ ] Search nearby gyms
-- [ ] Search gyms by name
+- [x] Get check-in count for logged-in user
+- [x] User check-in history
+- [x] Search nearby gyms
+- [x] Search gyms by name
 - [x] Perform gym check-in
-- [ ] Validate user check-in
+- [x] Validate user check-in
 - [x] Register a gym
 
 ## Business Rules
@@ -57,16 +58,16 @@ A study project from the [Rocketseat](https://rocketseat.com.br) Node.js bootcam
 - [x] No duplicate email registration
 - [x] Max 1 check-in per day per user
 - [x] Check-in only allowed within 100m of the gym
-- [ ] Check-in validation window: 20 minutes after creation
-- [ ] Only admins can validate check-ins
-- [ ] Only admins can register gyms
+- [x] Check-in validation window: 20 minutes after creation
+- [x] Only admins can validate check-ins
+- [x] Only admins can register gyms
 
 ## Non-Functional Requirements
 
 - [x] Passwords must be hashed
 - [x] PostgreSQL for data persistence
-- [ ] All lists paginated with 20 items per page
-- [ ] JWT-based authentication
+- [x] All lists paginated with 20 items per page
+- [x] JWT-based authentication
 
 ## Testing
 
@@ -86,20 +87,16 @@ Tests use a custom Prisma Vitest environment (`prisma/vitest-environment-prisma/
 
 ### Authentication in E2E Tests
 
-Use the `authenticateUser()` helper from `src/http/test-utils.ts` to avoid repetition:
+Use the `createAndAuthenticateUser()` helper from `src/utils/test/create-and-authenticate-user.ts` to avoid repetition:
 
 ```typescript
-import { authenticateUser } from '@/http/test-utils'
+import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
 
-// Default user (John Doe / johndoe@example.com / 123456)
-const { token } = await authenticateUser(app)
+// Default user (MEMBER role)
+const { token } = await createAndAuthenticateUser(app)
 
-// Custom user
-const { token } = await authenticateUser(app, {
-  email: 'custom@example.com',
-  password: 'password123',
-  name: 'Custom Name'
-})
+// Admin user
+const { token } = await createAndAuthenticateUser(app, true)
 
 // Use token in requests
 await request(app.server)
@@ -147,6 +144,7 @@ Create a `.env` file based on `.env.example`:
 
 ```env
 NODE_ENV=dev
+JWT_SECRET=your-jwt-secret
 DATABASE_URL="postgresql://docker:docker@localhost:5432/api-solid-pg"
 ```
 
@@ -160,7 +158,9 @@ DATABASE_URL="postgresql://docker:docker@localhost:5432/api-solid-pg"
 | `npm run lint` | Lint source files |
 | `npm run format` | Format source files |
 | `npm run test` | Run unit tests |
-| `npm run test:watch` | Run tests in watch mode |
+| `npm run test:watch` | Run unit tests in watch mode |
+| `npm run test:e2e` | Run E2E tests |
+| `npm run test:e2e:watch` | Run E2E tests in watch mode |
 | `npm run test:coverage` | Run tests with coverage report |
 | `npm run test:ui` | Open Vitest UI |
 | `npm run studio` | Open Prisma Studio |
