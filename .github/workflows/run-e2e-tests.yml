@@ -32,6 +32,9 @@ jobs:
 
       - name: Generate Prisma client
         run: npx prisma generate
+        env:
+          JWT_SECRET: testing
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/apisolid?schema=public"
 
       - name: Run E2E tests
         run: npm run test:e2e
